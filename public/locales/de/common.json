@@ -444,7 +444,8 @@
         "mem": "RAM",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "VMs"
+        "vms": "VMs",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

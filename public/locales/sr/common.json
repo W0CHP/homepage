@@ -444,7 +444,8 @@
         "mem": "Меморија",
         "cpu": "Процесор",
         "lxc": "LXC",
-        "vms": "VMs"
+        "vms": "VMs",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "Процесор",

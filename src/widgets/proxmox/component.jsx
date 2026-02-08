@@ -55,10 +55,8 @@ export default function Component({ service }) {
           nodesOnline += 1;
         }
 
-
         const nodeCpuPercent = isOnline && maxcpu > 0 ? Math.round((cpu / maxcpu) * 100) : null;
         const nodeMemPercent = isOnline && maxmem > 0 ? Math.round((mem / maxmem) * 100) : null;
-
 
         nodeDetails.push({
           node: node,
@@ -68,7 +66,6 @@ export default function Component({ service }) {
           isOnline: isOnline,
         });
 
-
         if (isOnline && (!specificNode || node === specificNode)) {
           totalCpu += cpu || 0;
           maxCpu += maxcpu || 0;
@@ -76,7 +73,6 @@ export default function Component({ service }) {
           maxMem += maxmem || 0;
         }
       }
-
 
       if (type === "qemu" && !template) {
         if (!specificNode || node === specificNode) {
@@ -86,7 +82,6 @@ export default function Component({ service }) {
           }
         }
       }
-
 
       if (type === "lxc") {
         if (!specificNode || node === specificNode) {
@@ -98,10 +93,8 @@ export default function Component({ service }) {
       }
     });
 
-
     const cpuPercent = maxCpu > 0 ? Math.round((totalCpu / maxCpu) * 100) : 0;
     const memPercent = maxMem > 0 ? Math.round((totalMem / maxMem) * 100) : 0;
-
 
     const showNodeList = widget.fields?.includes("node_list");
 
@@ -118,24 +111,24 @@ export default function Component({ service }) {
         {showNodeList && nodeDetails.length > 0 && (
           <div className="px-3 py-2 mt-1 text-xs">
 
-            <div className="flex items-center justify-between gap-2 mb-1 pb-1 border-b border-theme-200 dark:border-theme-700">
-              <div className="flex-1 text-theme-600 dark:text-theme-400 text-xs">
-                Node
+            <div className="flex items-center justify-between gap-2 mb-1 pb-1 border-b">
+              <div className="flex-1 text-xs">
+              {t("proxmox.nodes")}:
               </div>
               <div className="flex gap-3 text-xs">
-                <span className="w-8 text-right">CPU</span>
-                <span className="w-8 text-right">MEM</span>
+                <span className="w-8 text-right">{t("proxmox.cpu")}</span>
+                <span className="w-8 text-right">{t("proxmox.mem")}</span>
               </div>
             </div>
 
             <div className="space-y-0.5">
               {nodeDetails.map((nodeInfo) => (
-                <div key={nodeInfo.node} className="flex items-center justify-between gap-20">
+                <div key={nodeInfo.node} className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                    <span className={nodeInfo.isOnline ? "text-green-500" : "text-red-500"}>
+                    <span className={nodeInfo.isOnline ? "text-emerald-500" : "text-rose-500"}>
                       {nodeInfo.isOnline ? "●" : "○"}
                     </span>
-                    <span className={`text-xs truncate ${!nodeInfo.isOnline ? "" : ""}`}>
+                    <span className={`text-xs truncate ${!nodeInfo.isOnline ? "text-gray-500 dark:text-gray-500" : ""}`}>
                       {nodeInfo.node}
                     </span>
                   </div>

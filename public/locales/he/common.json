@@ -444,7 +444,8 @@
         "mem": "זיכרון",
         "cpu": "ניצול מעבד",
         "lxc": "LXC",
-        "vms": "VMs"
+        "vms": "VMs",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "ניצול מעבד",

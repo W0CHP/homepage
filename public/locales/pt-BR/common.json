@@ -212,7 +212,8 @@
         "mem": "Memória",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "VMs"
+        "vms": "VMs",
+        "nodes": "Nodes"
     },
     "unifi": {
         "users": "Usuários",
