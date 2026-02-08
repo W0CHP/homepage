@@ -271,18 +271,3 @@ The node list is displayed in a two-column grid format below the main statistics
 ### API Permissions
 The widget requires a Proxmox API token with the `PVEAuditor` role assigned at the `/` path with the "Propagate" option enabled. See the [Proxmox configuration documentation](../../configs/proxmox.md#create-token) for detailed setup instructions.
 
-## Translation Keys
-
-If you're adding translations for this widget, the following keys are used:
-
-```json
-{
-  "proxmox": {
-    "vms": "VMs",
-    "lxc": "LXC",
-    "nodes": "Nodes"
-  }
-}
-```
-
-The node list section uses hardcoded English text ("Node", "CPU", "MEM") which may be localized in future versions.
