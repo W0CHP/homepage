@@ -5,8 +5,9 @@ const widget = {
   proxyHandler: credentialedProxyHandler,
 
   mappings: {
-    "cluster/resources": {
+    resources: {
       endpoint: "cluster/resources",
+      validate: ["data"],
     },
   },
 };
