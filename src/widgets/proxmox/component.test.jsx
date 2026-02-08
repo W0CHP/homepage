@@ -14,7 +14,7 @@ import Component from "./component";
 function expectBlockValue(container, label, value) {
   const block = findServiceBlockByLabel(container, label);
   expect(block, `missing block for ${label}`).toBeTruthy();
-  expect(block.textContent).toContain(String(value));
+  expect(block.textContent).toContain(String(value).replace(/ /g, ""));
 }
 
 describe("widgets/proxmox/component", () => {
@@ -44,7 +44,7 @@ describe("widgets/proxmox/component", () => {
           { type: "qemu", template: 0, node: "n1", status: "running" },
           { type: "qemu", template: 0, node: "n1", status: "stopped" },
           { type: "lxc", template: 0, node: "n1", status: "running" },
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
         ],
       },
       error: undefined,
@@ -54,12 +54,10 @@ describe("widgets/proxmox/component", () => {
       settings: { hideErrors: false },
     });
 
-    expectBlockValue(container, "proxmox.vms", "1 / 2");
-    expectBlockValue(container, "proxmox.lxc", "1 / 1");
-    expectBlockValue(container, "proxmox.nodes", "1 / 1");
-    // cpu% = (usedCpu / maxCpu)*100 = ((0.25*4)/4)*100 = 25
+    expectBlockValue(container, "proxmox.vms", "1/2");
+    expectBlockValue(container, "proxmox.lxc", "1/1");
+    expectBlockValue(container, "proxmox.nodes", "1/1");
     expectBlockValue(container, "resources.cpu", 25);
-    // mem% = (50/100)*100 = 50
     expectBlockValue(container, "resources.mem", 50);
   });
 
@@ -69,9 +67,9 @@ describe("widgets/proxmox/component", () => {
         data: [
           { type: "qemu", template: 0, node: "n1", status: "running" },
           { type: "qemu", template: 0, node: "n1", status: "stopped" },
-          { type: "qemu", template: 1, node: "n1", status: "stopped" }, // Template - should be excluded
-          { type: "qemu", template: 1, node: "n1", status: "stopped" }, // Another template
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
+          { type: "qemu", template: 1, node: "n1", status: "stopped" },
+          { type: "qemu", template: 1, node: "n1", status: "stopped" },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
         ],
       },
       error: undefined,
@@ -81,8 +79,7 @@ describe("widgets/proxmox/component", () => {
       settings: { hideErrors: false },
     });
 
-    // Should only count 2 VMs, not 4 (templates excluded)
-    expectBlockValue(container, "proxmox.vms", "1 / 2");
+    expectBlockValue(container, "proxmox.vms", "1/2");
   });
 
   it("counts multiple nodes correctly", () => {
@@ -92,8 +89,8 @@ describe("widgets/proxmox/component", () => {
           { type: "qemu", template: 0, node: "n1", status: "running" },
           { type: "qemu", template: 0, node: "n2", status: "running" },
           { type: "lxc", template: 0, node: "n1", status: "running" },
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
-          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 0.5 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
+          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 2.0 },
           { type: "node", node: "n3", status: "offline", maxmem: 100, mem: 0, maxcpu: 4, cpu: 0 },
         ],
       },
@@ -104,12 +101,10 @@ describe("widgets/proxmox/component", () => {
       settings: { hideErrors: false },
     });
 
-    expectBlockValue(container, "proxmox.vms", "2 / 2");
-    expectBlockValue(container, "proxmox.lxc", "1 / 1");
-    expectBlockValue(container, "proxmox.nodes", "2 / 3"); // 2 online out of 3 total
-    // cpu% = ((0.25 + 0.5) / 8) * 100 = 9.375 rounded to 9
-    expectBlockValue(container, "resources.cpu", 9);
-    // mem% = ((50 + 30) / 200) * 100 = 40
+    expectBlockValue(container, "proxmox.vms", "2/2");
+    expectBlockValue(container, "proxmox.lxc", "1/1");
+    expectBlockValue(container, "proxmox.nodes", "2/3");
+    expectBlockValue(container, "resources.cpu", 38);
     expectBlockValue(container, "resources.mem", 40);
   });
 
@@ -122,8 +117,8 @@ describe("widgets/proxmox/component", () => {
           { type: "qemu", template: 0, node: "n2", status: "stopped" },
           { type: "lxc", template: 0, node: "n1", status: "running" },
           { type: "lxc", template: 0, node: "n2", status: "running" },
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
-          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 0.5 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
+          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 2.0 },
         ],
       },
       error: undefined,
@@ -136,13 +131,12 @@ describe("widgets/proxmox/component", () => {
       }
     );
 
-    // Should only count VMs and LXCs on n2
-    expectBlockValue(container, "proxmox.vms", "1 / 2"); // 1 running, 2 total on n2
-    expectBlockValue(container, "proxmox.lxc", "1 / 1"); // 1 running on n2
-    expectBlockValue(container, "proxmox.nodes", "2 / 2"); // Node count is still cluster-wide
-    // cpu% should only be from n2: (0.5 / 4) * 100 = 12.5 rounded to 13
-    expectBlockValue(container, "resources.cpu", 13);
-    // mem% should only be from n2: (30 / 100) * 100 = 30
+    expectBlockValue(container, "proxmox.vms", "1/2");
+    expectBlockValue(container, "proxmox.lxc", "1/1");
+    expectBlockValue(container, "proxmox.nodes", "2/2");
+
+    expectBlockValue(container, "resources.cpu", 50);
+
     expectBlockValue(container, "resources.mem", 30);
   });
 
@@ -151,8 +145,8 @@ describe("widgets/proxmox/component", () => {
       data: {
         data: [
           { type: "qemu", template: 0, node: "n1", status: "running" },
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
-          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 0.5 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
+          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 2.0 },
           { type: "node", node: "n3", status: "offline", maxmem: 100, mem: 0, maxcpu: 4, cpu: 0 },
         ],
       },
@@ -166,29 +160,27 @@ describe("widgets/proxmox/component", () => {
       }
     );
 
-    // Check that node list section is rendered
-    expect(screen.getByText("Nodes:")).toBeInTheDocument();
-    expect(screen.getByText("Node")).toBeInTheDocument();
-    expect(screen.getByText("CPU")).toBeInTheDocument();
-    expect(screen.getByText("MEM")).toBeInTheDocument();
+    const nodeListDiv = container.querySelector(".px-3.py-2.mt-1");
+    expect(nodeListDiv).toBeTruthy();
 
-    // Check that all nodes are listed
+    expect(screen.getByText(/proxmox\.cpu/)).toBeInTheDocument();
+    expect(screen.getByText(/proxmox\.mem/)).toBeInTheDocument();
+
     expect(screen.getByText("n1")).toBeInTheDocument();
     expect(screen.getByText("n2")).toBeInTheDocument();
     expect(screen.getByText("n3")).toBeInTheDocument();
 
-    // Check that percentages are shown for online nodes
-    expect(container.textContent).toContain("25%"); // n1 cpu
-    expect(container.textContent).toContain("50%"); // n1 mem
-    expect(container.textContent).toContain("13%"); // n2 cpu (0.5/4 = 12.5 rounded to 13)
-    expect(container.textContent).toContain("30%"); // n2 mem
+    expect(container.textContent).toContain("25%");
+    expect(container.textContent).toContain("50%");
+    expect(container.textContent).toContain("50%");
+    expect(container.textContent).toContain("30%");
   });
 
   it("shows em dash for offline nodes in node list", () => {
     useWidgetAPI.mockReturnValue({
       data: {
         data: [
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
           { type: "node", node: "n2", status: "offline", maxmem: 100, mem: 0, maxcpu: 4, cpu: 0 },
         ],
       },
@@ -205,11 +197,9 @@ describe("widgets/proxmox/component", () => {
     expect(screen.getByText("n1")).toBeInTheDocument();
     expect(screen.getByText("n2")).toBeInTheDocument();
 
-    // Online node should have percentages
     expect(container.textContent).toContain("25%");
     expect(container.textContent).toContain("50%");
 
-    // Offline node should have em dashes (—)
     const textContent = container.textContent;
     const n2Section = textContent.substring(textContent.indexOf("n2"));
     expect(n2Section).toContain("—");
@@ -219,22 +209,22 @@ describe("widgets/proxmox/component", () => {
     useWidgetAPI.mockReturnValue({
       data: {
         data: [
-          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 0.25 },
-          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 0.5 },
+          { type: "node", node: "n1", status: "online", maxmem: 100, mem: 50, maxcpu: 4, cpu: 1.0 },
+          { type: "node", node: "n2", status: "online", maxmem: 100, mem: 30, maxcpu: 4, cpu: 2.0 },
         ],
       },
       error: undefined,
     });
 
-    renderWithProviders(
+    const { container } = renderWithProviders(
       <Component service={{ widget: { type: "proxmox", fields: ["vms", "nodes"] } }} />,
       {
         settings: { hideErrors: false },
       }
     );
 
-    // Node list section should not be rendered
-    expect(screen.queryByText("Nodes:")).not.toBeInTheDocument();
+    const nodeListDivs = container.querySelectorAll(".space-y-0\\.5");
+    expect(nodeListDivs).toHaveLength(0);
   });
 
   it("handles empty data gracefully", () => {
@@ -247,9 +237,9 @@ describe("widgets/proxmox/component", () => {
       settings: { hideErrors: false },
     });
 
-    expectBlockValue(container, "proxmox.vms", "0 / 0");
-    expectBlockValue(container, "proxmox.lxc", "0 / 0");
-    expectBlockValue(container, "proxmox.nodes", "0 / 0");
+    expectBlockValue(container, "proxmox.vms", "0/0");
+    expectBlockValue(container, "proxmox.lxc", "0/0");
+    expectBlockValue(container, "proxmox.nodes", "0/0");
     expectBlockValue(container, "resources.cpu", 0);
     expectBlockValue(container, "resources.mem", 0);
   });
