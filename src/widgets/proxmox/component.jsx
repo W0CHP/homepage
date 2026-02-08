@@ -49,7 +49,8 @@ export default function Component({ service }) {
 
       if (type === "node") {
         nodesTotal += 1;
-        const isOnline = status === "online";
+        const cleanStatus = status ? status.toLowerCase().trim() : "unknown";
+        const isOnline = cleanStatus === "online";
 
         if (isOnline) {
           nodesOnline += 1;
@@ -60,7 +61,7 @@ export default function Component({ service }) {
 
         nodeDetails.push({
           node: node,
-          status: status,
+          status: cleanStatus,
           cpu: nodeCpuPercent,
           mem: nodeMemPercent,
           isOnline: isOnline,
@@ -98,6 +99,8 @@ export default function Component({ service }) {
 
     const showNodeList = widget.fields?.includes("node_list");
 
+    nodeDetails.sort((a, b) => a.node.localeCompare(b.node));
+
     return (
       <>
         <Container service={service}>
@@ -113,7 +116,7 @@ export default function Component({ service }) {
 
             <div className="flex items-center justify-between gap-2 mb-1 pb-1 border-b">
               <div className="flex-1 text-xs">
-              {t("proxmox.nodes")}:
+              {t("proxmox.nodes")}
               </div>
               <div className="flex gap-3 text-xs">
                 <span className="w-8 text-right">{t("proxmox.cpu")}</span>
@@ -123,7 +126,10 @@ export default function Component({ service }) {
 
             <div className="space-y-0.5">
               {nodeDetails.map((nodeInfo) => (
-                <div key={nodeInfo.node} className="flex items-center justify-between gap-2">
+                <div
+                  key={`${nodeInfo.node}-${nodeInfo.status}`}
+                  className="flex items-center justify-between gap-2"
+                >
                   <div className="flex items-center gap-1.5 flex-1 min-w-0">
                     <span className={nodeInfo.isOnline ? "text-emerald-500" : "text-rose-500"}>
                       {nodeInfo.isOnline ? "●" : "○"}
