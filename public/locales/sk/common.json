@@ -444,7 +444,8 @@
         "mem": "RAM",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "Virtuálne stroje"
+        "vms": "Virtuálne stroje",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

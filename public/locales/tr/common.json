@@ -444,7 +444,8 @@
         "mem": "Bellek",
         "cpu": "İşlemci",
         "lxc": "LXC",
-        "vms": "Sanal Makineler"
+        "vms": "Sanal Makineler",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "İşlemci",

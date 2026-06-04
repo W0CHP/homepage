@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "విఎంలు"
+        "vms": "విఎంలు",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

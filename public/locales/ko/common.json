@@ -444,7 +444,8 @@
         "mem": "메모리",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "가상머신"
+        "vms": "가상머신",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

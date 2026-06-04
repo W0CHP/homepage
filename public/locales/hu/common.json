@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "Processzor",
         "lxc": "LXC-k",
-        "vms": "VM-ek"
+        "vms": "VM-ek",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "Processzor",

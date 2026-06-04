@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "LCX",
-        "vms": "Mesin Maya"
+        "vms": "Mesin Maya",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

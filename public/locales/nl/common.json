@@ -444,7 +444,8 @@
         "mem": "GEH",
         "cpu": "CPU",
         "lxc": "LXC",
-        "vms": "VM's"
+        "vms": "VM's",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

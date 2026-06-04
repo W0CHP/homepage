@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "حاويات لينكس",
-        "vms": "أجهزة ظاهرية"
+        "vms": "أجهزة ظاهرية",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "Linux kontejner",
-        "vms": "Virtualni uređaji"
+        "vms": "Virtualni uređaji",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

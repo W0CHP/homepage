@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "容器",
-        "vms": "虚拟机"
+        "vms": "虚拟机",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

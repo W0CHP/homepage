@@ -444,7 +444,8 @@
         "mem": "MEM",
         "cpu": "CPU",
         "lxc": "Контейнери Linux",
-        "vms": "Віртуальні машини"
+        "vms": "Віртуальні машини",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "CPU",

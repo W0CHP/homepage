@@ -444,7 +444,8 @@
         "mem": "RAM",
         "cpu": "Procesor",
         "lxc": "Kontenery LXC",
-        "vms": "Maszyn wirtualnych"
+        "vms": "Maszyn wirtualnych",
+        "nodes": "Nodes"
     },
     "glances": {
         "cpu": "Procesor",
